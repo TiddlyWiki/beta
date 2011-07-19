@@ -3,12 +3,14 @@
 # Usage:
 #  bldbeta [release]
 
-DEFAULT_RELEASE=2.6.2.B7
+# Requires a cook script on $PATH.
+
+DEFAULT_RELEASE=2.6.3.B1
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD
 RECIPE=$PWD/recipes/index.$RELEASE.html.recipe
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
+cook $RECIPE index.$RELEASE.html -q
 RECIPE=$PWD/recipes/empty.$RELEASE.html.recipe
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q -o compressed.$RELEASE.html -cr -Cr -Dr $2 $3 $4 $5
-ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q -j -o twcore.$RELEASE.js $2 $3 $4 $5
+cook $RECIPE empty.$RELEASE.html -q
+cook  $RECIPE -d$DEST -q -o compressed.$RELEASE.html -cr -Cr -Dr
+cook  $RECIPE -d$DEST -q -j -o twcore.$RELEASE.js
